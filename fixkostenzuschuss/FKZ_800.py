@@ -7,7 +7,7 @@ def FKZ_800(
     sales_20: List[Union[int, float]],
     fixed_cost: List[Union[int, float]],
 ) -> Tuple[float, List[int]]:
-    """Calculates which month to choose to maximize the austrian governmental 
+    """Calculates which month to choose to maximize the austrian governmental
     company subsidy called "Fixkostenzuschuss 800.000"
 
     Args:
@@ -16,14 +16,15 @@ def FKZ_800(
         fixed_cost (List[Union[int, float]]): monthly fixed cost of
 
     Returns:
-        Tuple[float, List[int]]: 
-        Returns a Tuple with the first entry the maximized governmental support 
+        Tuple[float, List[int]]:
+        Returns a Tuple with the first entry the maximized governmental support
         and the second which month leads to this reult
     """
 
     if len(sales_19) == len(sales_20) == len(fixed_cost):
-        raise DifferentLenghtError()
-    raise 
+        raise DifferentLenghtError(
+            "The Input Vectors sales_19, sales_20 and fixed_cost are not equal length"
+        )
     length = len(sales_19)
     possible_combination = chain.from_iterable(
         combinations(range(length), r) for r in range(1, length + 1)
@@ -63,3 +64,7 @@ def _valid_combination(arr: Union[List[int], Tuple[int, ...]]) -> bool:
             if arr[i + 1] - arr[i] > 1:
                 gap_counter += 1
     return gap_counter <= 1
+
+
+class DifferentLenghtError(Exception):
+    pass
