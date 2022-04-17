@@ -21,7 +21,7 @@ def FKZ_800(
         and the second which month leads to this reult
     """
 
-    if len(sales_19) == len(sales_20) == len(fixed_cost):
+    if not (len(sales_19) == len(sales_20) == len(fixed_cost)):
         raise DifferentLenghtError(
             "The Input Vectors sales_19, sales_20 and fixed_cost are not equal length"
         )
