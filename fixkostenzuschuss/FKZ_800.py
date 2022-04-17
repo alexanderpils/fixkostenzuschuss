@@ -6,7 +6,7 @@ def FKZ_800(
     sales_19: List[Union[int, float]],
     sales_20: List[Union[int, float]],
     fixed_cost: List[Union[int, float]],
-) -> Tuple[float, List[int]]:
+) -> Tuple[float, Tuple[int]]:
     """Calculates which month to choose to maximize the austrian governmental
     company subsidy called "Fixkostenzuschuss 800.000"
 
