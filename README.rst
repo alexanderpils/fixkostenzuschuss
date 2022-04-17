@@ -1,0 +1,1 @@
+This implements a function to optimize the austrian governmental support for businesses during Corona, called "Fixedkostenzuschuss 800.000"
