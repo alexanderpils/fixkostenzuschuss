@@ -1,6 +1,10 @@
 from itertools import combinations, chain
 from typing import List, Tuple, Union
 
+MIN_PERCENTAGE_LOSS = 0.4
+MIN_BENEFIT_PAY = 500
+MAX_GAP = 1
+
 
 def FKZ_800(
     sales_19: List[Union[int, float]],
@@ -33,16 +37,22 @@ def FKZ_800(
     rs, combination = [], []
     for x in possible_combination:
         if _valid_combination(x):
-            combination.append(x)
             sum_s19, sum_s20, sum_fc = 0, 0, 0
             for i in x:
                 sum_s19 += sales_19[i]
                 sum_s20 += sales_20[i]
                 sum_fc += fixed_cost[i]
-            rs.append(sum_fc * (1 - sum_s20 / sum_s19))
-
-    rs_max = max(rs)
-    rs_comb = combination[rs.index(rs_max)]
+            percentage_loss = 1 - sum_s20 / sum_s19
+            benefit = sum_fc * percentage_loss
+            if (percentage_loss >= MIN_PERCENTAGE_LOSS) & (benefit >= MIN_BENEFIT_PAY):
+                combination.append(x)
+                rs.append(benefit)
+    if len(rs) > 0:
+        rs_max = max(max(rs), 0)
+        rs_comb = combination[rs.index(rs_max)]
+    else:
+        rs_max = 0
+        rs_comb = ()
 
     return (rs_max, rs_comb)
 
@@ -63,7 +73,7 @@ def _valid_combination(arr: Union[List[int], Tuple[int, ...]]) -> bool:
         for i in range(len(arr) - 1):
             if arr[i + 1] - arr[i] > 1:
                 gap_counter += 1
-    return gap_counter <= 1
+    return gap_counter <= MAX_GAP
 
 
 class DifferentLenghtError(Exception):
